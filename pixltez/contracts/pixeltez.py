@@ -8,12 +8,12 @@ import smartpy as sp
 # the contents are used to build the metadata JSON that users
 # can copy and upload to IPFS.
 TZIP16_Metadata_Base = {
-    "name"          : "SmartPy FA1.2 Token Template",
-    "description"   : "Example Template for an FA1.2 Contract from SmartPy",
+    "name"          : "PiXLTez",
+    "description"   : "PiXLTez Token",
     "authors"       : [
-        "SmartPy Dev Team <email@domain.com>"
+        "reactomoss@gmail.com"
     ],
-    "homepage"      : "https://smartpy.io",
+    "homepage"      : "https://pixl.io",
     "interfaces"    : [
         "TZIP-007-2021-04-17",
         "TZIP-016-2021-04-17"
