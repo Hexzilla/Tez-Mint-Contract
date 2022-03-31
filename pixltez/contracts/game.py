@@ -10,9 +10,9 @@ class Token(fa2.FA2):
 admin = sp.address(Constants.ADMINISTRATOR)
 sp.add_compilation_target("PiXLGame", Token(
     config = fa2.FA2_config(
-        single_asset = True,
-        non_fungible = False,
-        assume_consecutive_token_ids = False
+        single_asset = False,
+        non_fungible = True,
+        assume_consecutive_token_ids = True
     ),
     admin = admin,
     metadata = sp.big_map({
