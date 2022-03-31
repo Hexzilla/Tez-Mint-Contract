@@ -546,8 +546,7 @@ class FA2_mint(FA2_core):
 
     @sp.entry_point
     def mint_token(self, params):
-        sp.verify(self.is_administrator(sp.sender), message = self.error_message.not_admin())
-        # We don't check for pauseness because we're the admin.
+        sp.verify( ~self.is_paused(), message = self.error_message.paused() )
         if self.config.single_asset:
             sp.verify(params.token_id == 0, message = "single-asset: token-id <> 0")
         if self.config.non_fungible:
@@ -570,6 +569,9 @@ class FA2_mint(FA2_core):
         if self.config.store_total_supply:
             self.data.total_supply[params.token_id] = params.amount + self.data.total_supply.get(params.token_id, default_value = 0)
 
+    def is_paused(self):
+        return sp.bool(False)
+        
 class FA2_token_metadata(FA2_core):
     def set_token_metadata_view(self):
         def token_metadata(self, tok):
