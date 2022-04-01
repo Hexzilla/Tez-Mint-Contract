@@ -4,7 +4,7 @@ Config = sp.io.import_script_from_url("file:./contracts/config.py")
 
 admin = sp.address(Config.ADMIN)
 
-class PiXLTez(
+class PiXLCoin(
     FA2.Admin,
     FA2.ChangeMetadata,
     FA2.WithdrawMutez,
@@ -21,4 +21,4 @@ class PiXLTez(
             FA2.Admin.__init__(self, admin)
 
 
-sp.add_compilation_target("PiXLTez", PiXLTez())
+sp.add_compilation_target("PiXLCoin", PiXLCoin())
