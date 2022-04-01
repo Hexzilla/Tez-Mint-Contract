@@ -17,6 +17,6 @@ sp.add_compilation_target("PiXLGame", Token(
     admin = admin,
     metadata = sp.big_map({
         "": sp.utils.bytes_of_string("tezos-storage:content"),
-        "content": sp.utils.bytes_of_string("""{name: "PiXL"}"""),
+        "content": sp.utils.bytes_of_string("""{name: "PiXLGame"}"""),
     })
 ))

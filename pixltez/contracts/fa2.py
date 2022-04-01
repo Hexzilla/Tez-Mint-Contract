@@ -547,31 +547,28 @@ class FA2_mint(FA2_core):
     @sp.entry_point
     def mint_token(self, params):
         sp.verify( ~self.is_paused(), message = self.error_message.paused() )
-        if self.config.single_asset:
-            sp.verify(params.token_id == 0, message = "single-asset: token-id <> 0")
+        sp.verify( self.config.single_asset == False, message = "Not supported in single asset" )
         if self.config.non_fungible:
             sp.verify(params.amount == 1, message = "NFT-asset: amount <> 1")
-            sp.verify(
-                ~ self.token_id_set.contains(self.data.all_tokens, params.token_id),
-                message = "NFT-asset: cannot mint twice same token"
-            )
-        user = self.ledger_key.make(params.address, params.token_id)
+
+        token_id = self.token_id_set.cardinal(self.data.all_tokens)
+        user = self.ledger_key.make(sp.sender, token_id)
         sp.if self.data.ledger.contains(user):
             self.data.ledger[user].balance += params.amount
         sp.else:
             self.data.ledger[user] = Ledger_value.make(params.amount)
-        sp.if ~ self.token_id_set.contains(self.data.all_tokens, params.token_id):
-            self.token_id_set.add(self.data.all_tokens, params.token_id)
-            self.data.token_metadata[params.token_id] = sp.record(
-                token_id    = params.token_id,
+        sp.if ~ self.token_id_set.contains(self.data.all_tokens, token_id):
+            self.token_id_set.add(self.data.all_tokens, token_id)
+            self.data.token_metadata[token_id] = sp.record(
+                token_id    = token_id,
                 token_info  = params.metadata
             )
         if self.config.store_total_supply:
-            self.data.total_supply[params.token_id] = params.amount + self.data.total_supply.get(params.token_id, default_value = 0)
+            self.data.total_supply[token_id] = params.amount + self.data.total_supply.get(token_id, default_value = 0)
 
     def is_paused(self):
         return sp.bool(False)
-        
+
 class FA2_token_metadata(FA2_core):
     def set_token_metadata_view(self):
         def token_metadata(self, tok):
