@@ -3,6 +3,7 @@ FA2 = sp.io.import_script_from_url("https://smartpy.io/templates/fa2_lib.py")
 Config = sp.io.import_script_from_url("file:./contracts/config.py")
 
 admin = sp.address(Config.ADMIN)
+token = FA2.make_metadata(name="PiXLtez", decimals=2, symbol="PXL")
 
 class PiXLTez(
     FA2.Admin,
@@ -16,7 +17,11 @@ class PiXLTez(
 ):
     def __init__(self, policy=None):
             FA2.Fa2Fungible.__init__(
-                self, sp.utils.metadata_of_url("ipfs://example"), policy=policy
+                self,
+                metadata=sp.utils.metadata_of_url("ipfs://example"),
+                token_metadata=[token],
+                ledger={(admin, 0): 10000},
+                policy=policy
             )
             FA2.Admin.__init__(self, admin)
 
